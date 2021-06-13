@@ -11,10 +11,35 @@ function addTodo() {
     }
     console.log(todoText);
     todoList.push(todoObject);
-
+    displayTodos();
 }
 
 function doneTodo(todoId) {
-    const selectedTodoIndex =todoList.findIndex((myTodo) => myTodo.id == todoId);
+    const selectedTodoIndex =todoList.findIndex((item) => item.id == todoId);
     todoList[selectedTodoIndex].isDone =true;
+
+    displayTodos();
 }
+
+function displayTodos() {
+    todoListElement.innerHTML= "";
+    document.querySelector("#myInput").value = "";
+
+    todoList.forEach(item => {
+        const listElement = document.createElement("li");
+        listElement.innerText = item.todoText;
+        listElement.setAttribute("data-id", item.id);
+
+        if (item.isDone) {
+            listElement.classList.add("checked")
+        };
+        listElement.addEventListener("click", function(e){
+            const selectedId = e.target.getAttribute("data-id");
+            doneTodo(selectedId);
+        })
+        todoListElement.appendChild(listElement)
+
+    })
+}
+
+//51.51
